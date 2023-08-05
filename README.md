@@ -16,15 +16,11 @@ The intented consumers are BI analysts that will consume the data via a given BI
 The database used in this project represents a classic database that was originally created by Microsoft containing sales data of a fictitious company called “Northwind Traders”: https://github.com/pthom/northwind_psql
 
 ## Solution architecture
-The following graphical overview shows all components or services that were combined to implement the current solution. All components were deployed in the cloud (execept for Airbyte). 
 
-![](images/Solution_Architecture.png)
 
 
 ## Dataflow: from source to BI-tool
-The graphical schema represents the dataflow between and within components of the designed solution architecture.
 
-![](images/Data_Flow.png)
 
 ## Dimensional modeling (fact and dimensional tables)
 The outcome of the dimensional modeling is summarized by the Entity Relationship Diagram (ERD) shown below (FK = Foreign Key, SK = Surrogate Key, NK = Natural Key).
@@ -35,5 +31,3 @@ The outcome of the dimensional modeling is summarized by the Entity Relationship
 
  ![](images/Dashboard_Preset.png)
 
-## Current Code Repository
-The code elements shared within this repository reflect the data transformation and modeling part of the pipline that was realized within dbt connected to Snowflake serving as data warehouse.
