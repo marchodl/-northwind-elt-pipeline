@@ -20,7 +20,7 @@ The database used in this project represents a classic database that was origina
 
 
 ## Dataflow: from source to BI-tool
-
+To facilitate this transformation, fact and dimension tables are created. The fact table contains the metrics, facts, or measurements of the business process. The dimension tables, on the other hand, contain descriptive attributes that are used to filter, sort, and describe the facts. By organizing data in this way, it allows for more efficient querying and data analysis.
 
 ## Dimensional modeling (fact and dimensional tables)
 The outcome of the dimensional modeling is summarized by the Entity Relationship Diagram (ERD) shown below (FK = Foreign Key, SK = Surrogate Key, NK = Natural Key).
