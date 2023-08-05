@@ -1,0 +1,98 @@
+CREATE TABLE serving.dim_product AS
+SELECT
+    md5(stg_products.product_id::text) AS product_key,
+    stg_products.product_id,
+    stg_products.category_id AS product_category_id,
+    stg_products.product_name,
+    stg_products.quantity_per_unit AS product_quantity_per_unit,
+    stg_products.discontinued AS product_discontinued,
+    stg_products.reorder_level AS product_reorder_level,
+    stg_products.supplier_id AS product_supplier_id,
+    stg_products.units_in_stock AS product_units_in_stock,
+    stg_products.units_on_order AS product_units_on_order,
+    stg_products.unit_price AS product_unit_price,
+    stg_categories.category_id AS product_category_category_id,
+    stg_categories.category_name AS product_category_name,
+    stg_categories.description AS product_category_description,
+    stg_categories.picture AS product_category_picture
+FROM 
+    staging.stg_products 
+LEFT JOIN 
+    staging.stg_categories ON staging.stg_products.category_id = staging.stg_categories.category_id;
+
+CREATE TABLE serving.dim_supplier AS
+SELECT
+    md5(stg_suppliers.supplier_id::text) AS supplier_key,
+    md5(stg_products.product_id::text) AS product_key,
+    stg_suppliers.supplier_id,
+    stg_suppliers.region AS supplier_region,
+    stg_suppliers.postal_code AS supplier_postal_code,
+    stg_suppliers.address AS supplier_address,
+    stg_suppliers.city AS supplier_city,
+    stg_suppliers.company_name AS supplier_company_name,
+    stg_suppliers.contact_name AS supplier_contact_name,
+    stg_suppliers.contact_title AS supplier_contact_title,
+    stg_suppliers.country AS supplier_country,
+    stg_suppliers.fax AS supplier_fax,
+    stg_suppliers.homepage AS supplier_homepage,
+    stg_suppliers.phone AS supplier_phone
+FROM 
+    staging.stg_suppliers 
+LEFT JOIN 
+    staging.stg_products ON staging.stg_suppliers.supplier_id = staging.stg_products.supplier_id;
+	
+	CREATE TABLE serving.dim_trader AS
+SELECT
+    md5(stg_employees.employee_id::text) AS trader_key,
+    stg_employees.employee_id AS trader_id,
+    stg_employees.first_name || ' ' || stg_employees.last_name AS trader_fullname,
+    stg_employees.birth_date AS trader_birth_date,
+    stg_employees.city AS trader_city,
+    stg_employees.country AS trader_country,
+    stg_employees.extension AS trader_extension,
+    stg_employees.hire_date AS trader_hire_date,
+    stg_employees.home_phone AS trader_home_phone,
+    stg_employees.notes AS trader_notes,
+    stg_employees.photo AS trader_photo,
+    stg_employees.photo_path AS trader_photo_path,
+    stg_employees.postal_code AS trader_postal_code,
+    stg_employees.region AS trader_region,
+    stg_employees.reports_to AS trader_reports,
+    stg_employees.title AS trader_title,
+    stg_employees.title_of_courtesy AS trader_title_of_courtesy,
+    stg_territories.territory_id AS trader_territory_id,
+    stg_territories.territory_description AS trader_territory_description,
+    stg_territories.region_id AS trader_region_id,
+    stg_employee_territories.territory_id
+FROM 
+    staging.stg_employees
+LEFT JOIN 
+    staging.stg_employee_territories ON staging.stg_employees.employee_id = staging.stg_employee_territories.employee_id
+LEFT JOIN 
+    staging.stg_territories ON staging.stg_employee_territories.territory_id = staging.stg_territories.territory_id;
+
+CREATE TABLE serving.fct_order AS
+SELECT
+    md5(stg_order.product_id::text) AS product_key,
+    md5(stg_order.customer_id::text) AS customer_key,
+    md5(stg_order.employee_id::text) AS trader_key,
+    stg_order.order_id,
+    stg_order.customer_id,
+    stg_order.employee_id,
+    stg_order.required_date,
+    stg_order.shipped_date,
+    stg_order.ship_address,
+    stg_order.ship_city,
+    stg_order.ship_country,
+    stg_order.ship_name,
+    stg_order.ship_postal_code,
+    stg_order.ship_region,
+    stg_order.ship_via,
+    stg_order_detail.product_id AS order_product_id,
+    stg_order_detail.quantity,
+    stg_order_detail.unit_price,
+    stg_order_detail.discount,
+    stg_order_detail.quantity * stg_order_detail.unit_price * (1 - stg_order_detail.discount) AS value
+FROM staging.stg_orders stg_order
+LEFT JOIN staging.stg_order_details stg_order_detail
+     ON stg_order.order_id = stg_order_detail.order_id;

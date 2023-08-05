@@ -1,0 +1,127 @@
+CREATE TABLE staging.stg_categories AS
+SELECT
+    category_id
+    , category_name
+    , description
+    , picture
+FROM public.categories;
+
+CREATE TABLE staging.stg_customers AS
+SELECT
+    customer_id
+    , address
+    , city
+    , company_name
+    , contact_name
+    , contact_title
+    , country
+    , fax
+    , phone
+    , postal_code
+    , region
+FROM public.customers;
+
+CREATE TABLE staging.stg_employee_territories AS
+SELECT
+    employee_id
+    , territory_id
+FROM public.employee_territories;
+
+CREATE TABLE staging.stg_employees AS
+SELECT
+    employee_id
+    , address
+    , birth_date
+    , city
+    , country
+    , extension
+    , first_name
+    , hire_date
+    , home_phone
+    , last_name
+    , notes
+    , photo
+    , photo_path
+    , postal_code
+    , region
+    , reports_to
+    , title
+    , title_of_courtesy
+FROM public.employees;
+
+CREATE TABLE staging.stg_order_details AS
+SELECT
+    order_id
+    , product_id
+    , quantity
+    , unit_price
+    , discount
+FROM public.order_details;
+
+CREATE TABLE staging.stg_orders AS
+SELECT
+    order_id
+    , customer_id
+    , employee_id
+    , required_date
+    , shipped_date
+    , ship_address
+    , ship_city
+    , ship_country
+    , ship_name
+    , ship_postal_code
+    , ship_region
+    , ship_via
+FROM public.orders;
+
+CREATE TABLE staging.stg_products AS
+SELECT
+    product_id
+    , category_id
+    , product_name
+    , quantity_per_unit
+    , discontinued
+    , reorder_level
+    , supplier_id
+    , units_in_stock
+    , units_on_order
+    , unit_price
+FROM public.products;
+
+CREATE TABLE staging.stg_shippers AS
+SELECT
+    shipper_id
+    , company_name
+    , phone
+FROM public.shippers;
+
+CREATE TABLE staging.stg_suppliers AS
+SELECT
+    supplier_id
+    , region
+    , postal_code
+    , address
+    , city
+    , company_name
+    , contact_name
+    , contact_title
+    , country
+    , fax
+    , homepage
+    , phone
+FROM public.suppliers;
+
+CREATE TABLE staging.stg_territories AS
+SELECT
+    territory_id
+    , region_id
+    , territory_description
+FROM public.territories;
+
+CREATE TABLE staging.stg_us_states AS
+SELECT
+    state_id
+    , state_name
+    , state_abbr
+    , state_region
+FROM public.us_states;
