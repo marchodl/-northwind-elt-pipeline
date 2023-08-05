@@ -125,3 +125,14 @@ SELECT
     , state_abbr
     , state_region
 FROM public.us_states;
+CREATE TABLE serving.obt_order AS
+SELECT
+   *
+FROM 
+    serving.fct_order
+LEFT JOIN 
+    serving.dim_product ON serving.fct_order.product_key = serving.dim_product.product_key 
+LEFT JOIN 
+    serving.dim_supplier ON serving.fct_order.product_key = serving.dim_supplier.product_key 
+LEFT JOIN 
+    serving.dim_trader ON serving.fct_order.trader_key = serving.dim_trader.trader_key;
